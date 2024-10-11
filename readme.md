@@ -6,7 +6,7 @@ Dans ce projet nous allons configurer :
 - Un **mongos** (routeur) pour gérer le cluster sharded.
 - Un ensemble de **config servers** en replica set pour stocker les métadonnées du cluster.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/779bd245-d104-420a-b2dd-e561e33c1abd/image.png)
+![Schéma](./images/image1.png)
 
 ### **Prérequis :**
 
@@ -54,8 +54,6 @@ docker exec -it config1 mongosh --port 27017
 Dans le shell MongoDB, on exécute:
 
 ```jsx
-javascript
-Copier le code
 rs.initiate({
   _id: "cfgrs",
   configsvr: true,
@@ -364,13 +362,10 @@ IMPORTANT : Mapper le mongos sur un autre port
 
 - **On actualise la connexion** : Dans Navicat et MongoDB Compass, on actualise la liste des bases de données. On peut maintenant voir `maBase` avec la collection `maCollection`.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/14c796c8-a7f7-4065-9518-0b0eefd97bbd/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/f529577a-180e-4833-9820-f3da9bb69daf/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/249308ac-76b5-4f1d-8f30-291dab6d436f/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/06ab5d33-ace5-40c4-bb74-67a98dcd03af/image.png)
+![mongoDB Compass](./images/image2.png)
+![Navicat](./images/image3.png)
+![Navicat](./images/image4.png)
+![Shell](./images/image5.png)
 
 ### **4. Configurer le sharding sur le champ `annee`**
 
@@ -395,7 +390,7 @@ db.liste_des_prenoms.createIndex({ annee: 1 })
 sh.shardCollection("maBase.liste_des_prenoms", { annee: 1 })
 ```
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/645c8515-04b6-458a-8501-fe7265db6522/image.png)
+![Shell](./images/image6.png)
 
 ### **5. Pré-splitter les données en plages spécifiques**
 
@@ -437,7 +432,7 @@ sh.stopBalancer()
 sh.startBalancer()
 ```
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/9555534b-1806-4967-903c-b665f85bfe84/image.png)
+![Shell](./images/image7.png)
 
 ### **6. Vérifier la répartition des données**
 
@@ -448,10 +443,8 @@ Dans le shell MongoDB :
 ```jsx
 sh.status()
 ```
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/92e524bf-ea26-4e84-a548-5d19f53629da/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/1d0a3b36-f46f-4735-b272-687ed3479d0a/image.png)
+![Shell](./images/image8.png)
+![Shell](./images/image9.png)
 
 **Analyse de la sortie :**
 
@@ -484,7 +477,7 @@ databases:
 
 Cette méthode vous permet de voir la distribution des documents d'une collection entre les shards.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/faccdd11-c580-45a8-954a-19fe894e2f59/0cbb26b2-d585-4101-b842-a7856fba3c18/image.png)
+![Shell](./images/image10.png)
 
 # Simulation panne shard avec script Python
 
